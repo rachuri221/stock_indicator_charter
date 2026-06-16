@@ -151,6 +151,6 @@ createServer(async (req, res) => {
   } catch (error) {
     return json(res, 500, { error: error.message });
   }
-}).listen(port, "127.0.0.1", () => {
-  console.log(`Stock Indicator Charter running at http://127.0.0.1:${port}`);
+}).listen(port, "0.0.0.0", () => {
+  console.log(`Stock Indicator Charter running on port ${port}`);
 });
