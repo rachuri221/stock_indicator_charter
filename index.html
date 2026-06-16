@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Indicator Charter</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <section>
+          <p class="eyebrow">Live momentum desk</p>
+          <h1>Stock Indicator Charter</h1>
+        </section>
+        <section class="actions" aria-label="Controls">
+          <label class="search">
+            <span>Symbol</span>
+            <input id="symbolInput" autocomplete="off" spellcheck="false" value="NVDA">
+          </label>
+          <button id="loadSymbol" type="button">Chart</button>
+          <button id="refreshMarket" type="button">Refresh</button>
+        </section>
+      </header>
+
+      <section class="hero-grid">
+        <article class="signal-panel">
+          <div class="panel-head">
+            <div>
+              <p class="muted">Primary signal</p>
+              <h2 id="activeSymbol">Loading</h2>
+            </div>
+            <span id="signalBadge" class="badge neutral">Scanning</span>
+          </div>
+          <div class="score-wrap">
+            <div class="score-ring" id="scoreRing"><span id="signalScore">--</span></div>
+            <div>
+              <p id="signalTitle" class="signal-title">Finding the cleanest setup</p>
+              <p id="signalReason" class="muted">Pulling the most active tickers and combining trend, momentum, volatility, and volume indicators.</p>
+            </div>
+          </div>
+          <div class="metric-grid">
+            <div><span>RSI 14</span><strong id="rsiValue">--</strong></div>
+            <div><span>MACD</span><strong id="macdValue">--</strong></div>
+            <div><span>Trend</span><strong id="trendValue">--</strong></div>
+            <div><span>ATR Risk</span><strong id="atrValue">--</strong></div>
+          </div>
+        </article>
+
+        <article class="watch-panel">
+          <div class="tabs" role="tablist" aria-label="Market movers">
+            <button class="tab active" data-list="bullish" type="button">Bullish</button>
+            <button class="tab" data-list="bearish" type="button">Bearish</button>
+            <button class="tab" data-list="all" type="button">Most Active</button>
+          </div>
+          <div id="watchlist" class="watchlist" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <section class="chart-grid">
+        <article class="chart-panel price-panel">
+          <div class="panel-head tight">
+            <div>
+              <p class="muted">1D / 5m candles with EMA 20 / EMA 50 / Bollinger Bands</p>
+              <h2 id="chartTitle">Day Chart</h2>
+            </div>
+            <span id="dataSource" class="source-pill">Connecting</span>
+          </div>
+          <div class="chart-legend" aria-label="Price chart indicator legend">
+            <span class="legend-item"><span class="legend-swatch ema20"></span>EMA 20</span>
+            <span class="legend-item"><span class="legend-swatch ema50"></span>EMA 50</span>
+            <span class="legend-item"><span class="legend-swatch bollinger"></span>Bollinger Bands</span>
+          </div>
+          <canvas id="priceChart" height="430"></canvas>
+        </article>
+        <aside class="side-stack">
+          <article class="mini-panel">
+            <p class="muted">Momentum</p>
+            <canvas id="rsiChart" height="150"></canvas>
+          </article>
+          <article class="mini-panel">
+            <p class="muted">MACD</p>
+            <canvas id="macdChart" height="150"></canvas>
+          </article>
+          <article class="playbook">
+            <p class="muted">Signal playbook</p>
+            <ul id="playbook"></ul>
+          </article>
+        </aside>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
