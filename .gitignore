@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Local scratch / nested repo
+stock_indicator_charter.git/
+outputs/
+work/
