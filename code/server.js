@@ -122,6 +122,27 @@ async function chart(symbol) {
   }
 }
 
+async function search(query) {
+  const term = (query || "").trim();
+  if (!term) return { source: "Yahoo Finance search", stale: false, quotes: [] };
+  try {
+    const url = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(term)}&quotesCount=8&newsCount=0&enableFuzzyQuery=true`;
+    const data = await fetchJson(url);
+    const allowed = new Set(["EQUITY", "ETF", "MUTUALFUND", "INDEX", "CURRENCY", "CRYPTOCURRENCY", "FUTURE"]);
+    const quotes = (data?.quotes || [])
+      .filter((q) => q.symbol && allowed.has(q.quoteType))
+      .map((q) => ({
+        symbol: q.symbol,
+        shortName: q.shortname || q.longname || q.symbol,
+        exchange: q.exchDisp || q.exchange || "",
+        type: q.quoteType || "",
+      }));
+    return { source: "Yahoo Finance search", stale: false, asOf: new Date().toISOString(), quotes };
+  } catch (error) {
+    return { source: "Search unavailable", stale: true, asOf: new Date().toISOString(), error: error.message, quotes: [] };
+  }
+}
+
 async function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname === "/" ? "/index.html" : url.pathname;
@@ -146,6 +167,7 @@ createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   try {
     if (url.pathname === "/api/market") return json(res, 200, await marketMovers());
+    if (url.pathname === "/api/search") return json(res, 200, await search(url.searchParams.get("q") || ""));
     if (url.pathname === "/api/chart") return json(res, 200, await chart(url.searchParams.get("symbol") || "NVDA"));
     return serveStatic(req, res);
   } catch (error) {

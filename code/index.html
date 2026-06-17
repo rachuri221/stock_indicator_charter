@@ -14,10 +14,14 @@
           <h1>Stock Indicator Charter</h1>
         </section>
         <section class="actions" aria-label="Controls">
-          <label class="search">
-            <span>Symbol</span>
-            <input id="symbolInput" autocomplete="off" spellcheck="false" value="NVDA">
-          </label>
+          <div class="search">
+            <label for="symbolInput">Search</label>
+            <div class="search-field">
+              <input id="symbolInput" autocomplete="off" spellcheck="false" placeholder="Ticker or company" value="NVDA"
+                     role="combobox" aria-controls="searchResults" aria-expanded="false" aria-autocomplete="list">
+              <ul id="searchResults" class="search-results" role="listbox" aria-label="Search results" hidden></ul>
+            </div>
+          </div>
           <button id="loadSymbol" type="button">Chart</button>
           <button id="refreshMarket" type="button">Refresh</button>
         </section>
@@ -40,10 +44,10 @@
             </div>
           </div>
           <div class="metric-grid">
-            <div><span>RSI 14</span><strong id="rsiValue">--</strong></div>
-            <div><span>MACD</span><strong id="macdValue">--</strong></div>
-            <div><span>Trend</span><strong id="trendValue">--</strong></div>
-            <div><span>ATR Risk</span><strong id="atrValue">--</strong></div>
+            <div class="has-info" data-info="rsi" tabindex="0"><span>RSI 14</span><strong id="rsiValue">--</strong></div>
+            <div class="has-info" data-info="macd" tabindex="0"><span>MACD</span><strong id="macdValue">--</strong></div>
+            <div class="has-info" data-info="trend" tabindex="0"><span>Trend</span><strong id="trendValue">--</strong></div>
+            <div class="has-info" data-info="atr" tabindex="0"><span>ATR Risk</span><strong id="atrValue">--</strong></div>
           </div>
         </article>
 
@@ -63,23 +67,24 @@
             <div>
               <p class="muted">1D / 5m candles with EMA 20 / EMA 50 / Bollinger Bands</p>
               <h2 id="chartTitle">Day Chart</h2>
+              <p class="muted refresh-status" id="refreshStatus">Auto-refresh every 5 min</p>
             </div>
             <span id="dataSource" class="source-pill">Connecting</span>
           </div>
           <div class="chart-legend" aria-label="Price chart indicator legend">
-            <span class="legend-item"><span class="legend-swatch ema20"></span>EMA 20</span>
-            <span class="legend-item"><span class="legend-swatch ema50"></span>EMA 50</span>
-            <span class="legend-item"><span class="legend-swatch bollinger"></span>Bollinger Bands</span>
+            <span class="legend-item has-info" data-info="ema" tabindex="0"><span class="legend-swatch ema20"></span>EMA 20</span>
+            <span class="legend-item has-info" data-info="ema" tabindex="0"><span class="legend-swatch ema50"></span>EMA 50</span>
+            <span class="legend-item has-info" data-info="bollinger" tabindex="0"><span class="legend-swatch bollinger"></span>Bollinger Bands</span>
           </div>
           <canvas id="priceChart" height="430"></canvas>
         </article>
         <aside class="side-stack">
           <article class="mini-panel">
-            <p class="muted">Momentum</p>
+            <p class="muted has-info" data-info="rsi" tabindex="0">Momentum (RSI)</p>
             <canvas id="rsiChart" height="150"></canvas>
           </article>
           <article class="mini-panel">
-            <p class="muted">MACD</p>
+            <p class="muted has-info" data-info="macd" tabindex="0">MACD</p>
             <canvas id="macdChart" height="150"></canvas>
           </article>
           <article class="playbook">
